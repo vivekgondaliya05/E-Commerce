@@ -20,7 +20,7 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -71,7 +71,6 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-//Add product here..
 const products = [
   {
     id: 1,
@@ -108,10 +107,8 @@ const products = [
 const ProductList = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   return (
-    // category filter
     <div className="bg-white">
       <div>
-        {/* Mobile filter dialog */}
         <Dialog
           className="relative z-40 lg:hidden"
           open={mobileFiltersOpen}
@@ -139,7 +136,6 @@ const ProductList = () => {
                 </button>
               </div>
 
-              {/* Filters */}
               <form className="mt-4 border-t border-gray-200">
                 {filters.map((section) => (
                   <Disclosure
@@ -266,14 +262,12 @@ const ProductList = () => {
             </div>
           </div>
 
-          {/* section of products and filters starts */}
           <section aria-labelledby="products-heading" className="pb-24 pt-6">
             <h2 id="products-heading" className="sr-only">
               All Products
             </h2>
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-              {/* Filters */}
               <form className="hidden lg:block">
                 {filters.map((section) => (
                   <Disclosure
@@ -334,9 +328,7 @@ const ProductList = () => {
                 ))}
               </form>
 
-              {/* products list */}
               <div className="lg:col-span-3">
-                {" "}
                 <div className="bg-white">
                   <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
                     <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
@@ -376,9 +368,6 @@ const ProductList = () => {
               </div>
             </div>
           </section>
-          {/* section of products and filters ends */}
-
-          {/* pagination starts */}
           <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
             <div className="flex flex-1 justify-between sm:hidden">
               <a
@@ -439,8 +428,6 @@ const ProductList = () => {
               </div>
             </div>
           </div>
-          {/* pagination ends */}
-
         </main>
       </div>
     </div>
