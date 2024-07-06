@@ -13,6 +13,7 @@ import {
   ShoppingCartIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const user = {
   name: "Tom Cook",
@@ -72,17 +73,19 @@ const Navbar = ({ children }) => {
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
-                    <button
-                      type="button"
-                      className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                    >
-                      <span className="absolute -inset-1.5" />
-                      <ShoppingCartIcon
-                        className="h-6 w-6"
-                        aria-hidden="true"
-                      />
-                    </button>
-                    <span className="inline-flex items-center rounded-xl mb-7 -ml-1 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                    <Link to="/cart">
+                      <button
+                        type="button"
+                        className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white"
+                      >
+                        {/* <span className="absolute -inset-1.5" /> */}
+                        <ShoppingCartIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </Link>
+                    <span className="inline-flex items-center rounded-xl mb-6 -ml-2 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                       3
                     </span>
 
@@ -157,32 +160,41 @@ const Navbar = ({ children }) => {
                 ))}
               </div>
               <div className="border-t border-gray-700 pb-3 pt-4">
-                <div className="flex items-center px-5">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="h-10 w-10 rounded-full"
-                      src={user.imageUrl}
-                      alt=""
-                    />
-                  </div>
-                  <div className="ml-3">
-                    <div className="text-base font-medium leading-none text-white">
-                      {user.name}
+                <div className="flex justify-between px-5">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <img
+                        className="h-10 w-10 rounded-full"
+                        src={user.imageUrl}
+                        alt=""
+                      />
                     </div>
-                    <div className="text-sm font-medium leading-none text-gray-400">
-                      {user.email}
+                    <div className="ml-3 flex flex-col justify-center">
+                      <div className="text-base font-medium leading-none text-white">
+                        {user.name}
+                      </div>
+                      <div className="text-sm font-medium leading-none text-gray-400">
+                        {user.email}
+                      </div>
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  >
-                    <span className="absolute -inset-1.5" />
-                    <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                  <span className="inline-flex items-center rounded-xl mb-8 -ml-1 bg-red-50  px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                    3
-                  </span>
+                  <div className="relative">
+                    <Link to="/cart">
+                      <button
+                        type="button"
+                        className=" ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white"
+                      >
+                        {/* <span className="absolute -inset-1.5" /> */}
+                        <ShoppingCartIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </Link>
+                    <div className="rounded-3xl bg-red-50 w-5 h-5 absolute -top-1 left-6 text-center text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                      3
+                    </div>
+                  </div>
                 </div>
                 <div className="mt-3 space-y-1 px-2">
                   {userNavigation.map((item) => (

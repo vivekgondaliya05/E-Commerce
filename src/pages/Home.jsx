@@ -4,7 +4,7 @@ import ProductList from '../features/product-list/ProductList'
 
 const Home = () => {
   return (
-    <Navbar >
+    <Navbar>
         <ProductList></ProductList>
     </Navbar>
   )
