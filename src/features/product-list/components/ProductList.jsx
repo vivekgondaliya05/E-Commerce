@@ -21,8 +21,7 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import ProductCart from "../../components/product/ProductCart";
-
+import ProductCart from "../../../components/product/ProductCart";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -299,7 +298,7 @@ const ProductList = () => {
                             </span>
                           </DisclosureButton>
                         </h3>
-                        
+
                         <DisclosurePanel className="pt-6">
                           <div className="space-y-4">
                             {section.options.map((option, optionIdx) => (
@@ -331,12 +330,11 @@ const ProductList = () => {
                 ))}
               </form>
 
-              <ProductCart products={products}/>
-
+              <ProductCart products={products} />
+              
             </div>
           </section>
 
-          
           <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
             <div className="flex flex-1 justify-between sm:hidden">
               <a
@@ -397,7 +395,6 @@ const ProductList = () => {
               </div>
             </div>
           </div>
-
         </main>
       </div>
     </div>
