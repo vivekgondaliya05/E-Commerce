@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Dialog,
   DialogBackdrop,
@@ -21,49 +22,32 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import ProductCart from "../../../components/product/ProductCart";
+import ProductCart from "../../components/product/ProductCart";
+// import { getData } from "./  productSlice";
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
+  { name: "Price: Low to High", sort: "price", order: "asc", current: false },
+  { name: "Price: High to Low", sort: "price", order: "desc", current: false },
+  { name: "Best Rating", sort: "rating", order: "desc", current: false },
 ];
 const filters = [
   {
-    id: "color",
-    name: "Color",
+    id: "gender",
+    name: "Gender",
     options: [
-      { value: "white", label: "White", checked: false },
-      { value: "beige", label: "Beige", checked: false },
-      { value: "blue", label: "Blue", checked: true },
-      { value: "brown", label: "Brown", checked: false },
-      { value: "green", label: "Green", checked: false },
-      { value: "purple", label: "Purple", checked: false },
-    ],
-  },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "new-arrivals", label: "New Arrivals", checked: false },
-      { value: "sale", label: "Sale", checked: false },
-      { value: "travel", label: "Travel", checked: true },
-      { value: "organization", label: "Organization", checked: false },
-      { value: "accessories", label: "Accessories", checked: false },
+      { value: "men", label: "Men", checked: false },
+      { value: "women", label: "Women", checked: false },
     ],
   },
   {
     id: "size",
     name: "Size",
     options: [
-      { value: "2l", label: "2L", checked: false },
-      { value: "6l", label: "6L", checked: false },
-      { value: "12l", label: "12L", checked: false },
-      { value: "18l", label: "18L", checked: false },
-      { value: "20l", label: "20L", checked: false },
-      { value: "40l", label: "40L", checked: true },
+      { value: "s", label: "s", checked: false },
+      { value: "m", label: "m", checked: false },
+      { value: "l", label: "l", checked: false },
+      { value: "xl", label: "xl", checked: false },
+      { value: "xll", label: "xll", checked: false },
     ],
   },
 ];
@@ -72,41 +56,105 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 2,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 3,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-];
-
 const ProductList = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const { products } = useSelector((state) => state.products);
+  const [productsData, setProductData] = useState(products);
+  const [checkedData, setCheckedData] = useState([]);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getData());
+  // }, []);
+
+  //new product will be in setProductData
+
+  //sorting
+  const handleSort = (event, option) => {
+    setProductData((prevData) => {
+      const sortedData = [...prevData];
+      if (option.sort === "price" && option.order === "asc") {
+        sortedData.sort((a, b) => {
+          const priceA =
+            typeof a.price === "string" ? parseFloat(a.price) : a.price;
+          const priceB =
+            typeof b.price === "string" ? parseFloat(b.price) : b.price;
+
+          return priceA - priceB; // For ascending order
+        });
+        return sortedData;
+      } else if (option.sort === "price" && option.order === "desc") {
+        sortedData.sort((a, b) => {
+          const priceA =
+            typeof a.price === "string" ? parseFloat(a.price) : a.price;
+          const priceB =
+            typeof b.price === "string" ? parseFloat(b.price) : b.price;
+
+          return priceB - priceA; // For descending order
+        });
+        return sortedData;
+      } else if (option.sort === "rating" && option.order === "desc") {
+        sortedData.sort((a, b) => {
+          const ratingA =
+            typeof a.rating === "string" ? parseFloat(a.rating) : a.rating;
+          const ratingB =
+            typeof b.rating === "string" ? parseFloat(b.rating) : b.rating;
+
+          return ratingB - ratingA; // For ascending order
+        });
+        return sortedData;
+      }
+    });
+    // console.log(option);
+  };
+
+  //fileteration
+  const handleFilter = (event) => {
+    const eventVal = event.target.value;
+
+    if (event.target.checked) {
+      setCheckedData((prevData) => {
+        const newData = [...prevData, eventVal];
+        filterProducts(newData);
+        return newData;
+      });
+    } else {
+      setCheckedData((prevData) => {
+        const newData = prevData.filter((item) => item !== eventVal);
+        filterProducts(newData);
+        return newData;
+      });
+    }
+  };
+
+  const filterProducts = (checkedData) => {
+    if (checkedData.length === 0) {
+      setProductData(products);
+      return;
+    }
+
+    const categories = checkedData.filter((item) =>
+      filters[0].options.some((option) => option.value === item)
+    );
+
+    const sizes = checkedData.filter((item) =>
+      filters[1].options.some((option) => option.value === item)
+    );
+
+    setProductData(
+      products.filter((product) => {
+        const matchesCategory = categories.includes(product.category);
+        const matchesSize = sizes.includes(product.size);
+
+        if (categories.length > 0 && sizes.length > 0) {
+          return matchesCategory && matchesSize;
+        } else {
+          return matchesCategory || matchesSize;
+        }
+      })
+    );
+  };
+
   return (
     <div className="bg-white">
       <div>
@@ -177,10 +225,12 @@ const ProductList = () => {
                                   id={`filter-mobile-${section.id}-${optionIdx}`}
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
+                                  Checked={option.checked}
                                   type="checkbox"
-                                  defaultChecked={option.checked}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  onChange={handleFilter}
                                 />
+
                                 <label
                                   htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
                                   className="ml-3 min-w-0 flex-1 text-gray-500"
@@ -226,8 +276,10 @@ const ProductList = () => {
                     {sortOptions.map((option) => (
                       <MenuItem key={option.name}>
                         {({ focus }) => (
-                          <a
-                            href={option.href}
+                          <div
+                            onClick={(event) => {
+                              handleSort(event, option);
+                            }}
                             className={classNames(
                               option.current
                                 ? "font-medium text-gray-900"
@@ -237,7 +289,7 @@ const ProductList = () => {
                             )}
                           >
                             {option.name}
-                          </a>
+                          </div>
                         )}
                       </MenuItem>
                     ))}
@@ -311,8 +363,9 @@ const ProductList = () => {
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
                                   type="checkbox"
-                                  defaultChecked={option.checked}
+                                  Checked={option.checked}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  onChange={handleFilter}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}
@@ -330,8 +383,7 @@ const ProductList = () => {
                 ))}
               </form>
 
-              <ProductCart products={products} />
-              
+              <ProductCart products={productsData} />
             </div>
           </section>
 
