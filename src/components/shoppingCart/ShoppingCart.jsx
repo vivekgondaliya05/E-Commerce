@@ -29,7 +29,7 @@ const products = [
   // More products...
 ];
 
-const Cart = () => {
+const ShoppingCart = () => {
   const [open, setOpen] = useState(true);
   return (
     <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-10 ">
@@ -130,4 +130,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default ShoppingCart;

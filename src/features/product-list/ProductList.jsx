@@ -40,14 +40,14 @@ const filters = [
     ],
   },
   {
-    id: "size",
-    name: "Size",
+    id: "Material",
+    name: "Material",
     options: [
-      { value: "s", label: "s", checked: false },
-      { value: "m", label: "m", checked: false },
-      { value: "l", label: "l", checked: false },
-      { value: "xl", label: "xl", checked: false },
-      { value: "xll", label: "xll", checked: false },
+      { value: "Cotton", label: "Cotton", checked: false },
+      { value: "Polyester", label: "Polyester", checked: false },
+      { value: "Wool", label: "Wool", checked: false },
+      { value: "Nylon", label: "Nylon", checked: false },
+      { value: "Leather", label: "Leather", checked: false },
     ],
   },
 ];
@@ -132,19 +132,19 @@ const ProductList = () => {
         filters[0].options.some((option) => option.value === item)
       );
 
-      const sizes = checkedData.filter((item) =>
+      const material = checkedData.filter((item) =>
         filters[1].options.some((option) => option.value === item)
       );
       // setProductData(products);
       setProductData(
         products.filter((product) => {
           const matchesCategory = categories.includes(product.category);
-          const matchesSize = sizes.includes(product.size);
+          const matchMaterial = material.includes(product.material);
 
-          if (categories.length > 0 && sizes.length > 0) {
-            return matchesCategory && matchesSize;
+          if (categories.length > 0 && material.length > 0) {
+            return matchesCategory && matchMaterial;
           } else {
-            return matchesCategory || matchesSize;
+            return matchesCategory || matchMaterial;
           }
         })
       );
@@ -183,7 +183,6 @@ const ProductList = () => {
       setTotalPage(Math.ceil(products.length / itemsPerPage));
       handleCurrentPage(currentPage);
     }
-    console.log("hello");
   }, [fileteration]);
   useEffect(() => {
     handleCurrentPage(currentPage);
