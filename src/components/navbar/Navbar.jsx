@@ -75,7 +75,7 @@ const Navbar = ({ children }) => {
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
-                    <Link to="/cart">
+                    <Link to="/shoppingCart">
                       <button
                         type="button"
                         className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white"
@@ -181,7 +181,7 @@ const Navbar = ({ children }) => {
                     </div>
                   </div>
                   <div className="relative">
-                    <Link to="/cart">
+                    <Link to="/shoppingart">
                       <button
                         type="button"
                         className=" ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white"
